@@ -4,6 +4,7 @@
 # EC2インスタンスの作成
 #----------------------------------------
 resource "aws_instance" "apache" {
+  name                   = var.name
   ami                    = "ami-09d28faae2e9e7138" # Amazon Linux 2
   instance_type          = "t2.micro"
   subnet_id              = var.subnet_id

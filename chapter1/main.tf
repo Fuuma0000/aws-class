@@ -17,6 +17,7 @@ module "vpc" {
 
 module "ec2" {
   source            = "./modules/ec2"
+  name              = "ie3b14-sv"
   subnet_id         = module.vpc.subnet_id
   security_group_id = module.vpc.security_group_id
 }
