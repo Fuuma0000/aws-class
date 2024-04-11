@@ -43,4 +43,4 @@ terraform.rc
 .DS_Store
 
 # Ignore key files
-keys/*
+*/keys/

@@ -13,15 +13,14 @@ provider "aws" {
   region = "ap-northeast-1"
 }
 
+locals {
+  private_key_file = "./keys/hoge.pem"
+}
+
 # キーペアのリソースを作成
 resource "aws_key_pair" "my_keypair" {
   key_name   = "my-keypair"
-  public_key = file("${path.module}/../keys/my-keypair.pub") # 公開鍵ファイルのパスを指定
-}
-
-# 出力: 公開鍵の値を表示
-output "public_key" {
-  value = aws_key_pair.my_keypair.public_key
+  public_key = tls_private_key.my_keypair.public_key_openssh
 }
 
 resource "tls_private_key" "my_keypair" {
@@ -30,7 +29,7 @@ resource "tls_private_key" "my_keypair" {
 
 # ローカルファイルに秘密鍵を生成
 resource "local_file" "private_key" {
-  filename        = "${path.module}/../keys/my-keypair.pem"    # 秘密鍵ファイルのパスを指定
+  filename        = local.private_key_file
   content         = tls_private_key.my_keypair.private_key_pem # Terraformで生成した秘密鍵の内容を取得
   file_permission = "0400"                                     // 400パーミッションを設定
 }
