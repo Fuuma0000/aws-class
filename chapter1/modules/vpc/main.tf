@@ -4,7 +4,7 @@
 # VPCの作成
 #----------------------------------------
 resource "aws_vpc" "vpc" {
-  cidr_block           = "10.0.0.0/16"
+  cidr_block           = var.vpc_cidr_block
   enable_dns_hostnames = true // ホスト名を有効にする
 }
 #----------------------------------------
@@ -12,7 +12,7 @@ resource "aws_vpc" "vpc" {
 #----------------------------------------
 resource "aws_subnet" "subnet" {
   vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = "10.0.1.0/24"
+  cidr_block              = var.subnet_cidr_block
   availability_zone       = "ap-northeast-1a"
   map_public_ip_on_launch = true //public ipを自動で割り当てる
 }
