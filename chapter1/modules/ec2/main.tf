@@ -13,7 +13,7 @@ resource "aws_instance" "apache" {
     Name = var.name
   }
   disable_api_termination = true
-  user_data              = <<-EOF
+  user_data               = <<-EOF
     #! /bin/bash
     sudo yum install -y httpd
     sudo systemctl start httpd
