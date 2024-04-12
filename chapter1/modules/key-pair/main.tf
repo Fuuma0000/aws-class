@@ -13,7 +13,3 @@ resource "local_file" "private_key" {
   content         = tls_private_key.my_keypair.private_key_pem # Terraformで生成した秘密鍵の内容を取得
   file_permission = "400"                                     // 400パーミッションを設定
 }
-
-output "key_pair_name" {
-  value = aws_key_pair.my_keypair.key_name
-}
