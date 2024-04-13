@@ -1,0 +1,22 @@
+name: Format Terraform
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.7.5
+
+      - name: Format Terraform files
+        run: terraform fmt -recursive
