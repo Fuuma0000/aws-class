@@ -4,7 +4,7 @@
 # EC2インスタンスの作成
 #----------------------------------------
 resource "aws_instance" "apache" {
-  ami                    = "ami-0bdd30a3e20da30a1" # Amazon Linux 2024
+  ami                    = "ami-0bdd30a3e20da30a1" # Amazon Linux 2023
   instance_type          = "t2.micro"
   subnet_id              = var.subnet_id
   vpc_security_group_ids = [var.security_group_id]
