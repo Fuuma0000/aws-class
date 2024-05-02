@@ -27,3 +27,8 @@ variable "key_pair_name" {
   description = "The name of the key pair."
   type        = string
 }
+
+variable "user_data" {
+  description = "The user data to use for the server"
+  type        = string
+}

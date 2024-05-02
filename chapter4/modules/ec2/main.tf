@@ -1,8 +1,5 @@
 // modules/ec2/main.tf
 
-#----------------------------------------
-# EC2インスタンスの作成
-#----------------------------------------
 resource "aws_instance" "instance" {
   ami                    = var.ami
   instance_type          = var.instance_type
@@ -12,10 +9,5 @@ resource "aws_instance" "instance" {
   tags = {
     Name = var.name
   }
-  user_data = <<-EOF
-    #! /bin/bash
-    sudo yum install -y httpd
-    sudo systemctl start httpd
-    sudo systemctl enable httpd
-  EOF
+  user_data = var.user_data
 }
