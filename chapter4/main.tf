@@ -147,6 +147,7 @@ module "public_a_ec2" {
   key_pair_name     = module.key_pair.key_pair_name
   user_data         = <<-EOF
     #! /bin/bash
+    sudo yum update -y
     sudo yum install -y httpd
     sudo systemctl start httpd
     sudo systemctl enable httpd
@@ -163,8 +164,9 @@ module "private_b_ec2" {
   key_pair_name     = module.key_pair.key_pair_name
   user_data         = <<-EOF
     #! /bin/bash
-    sudo yum install -y httpd
-    sudo systemctl start httpd
-    sudo systemctl enable httpd
+    sudo yum update -y
+    sudo yum install -y mariadb105-server
+    sudo systemctl start mariadb
+    sudo systemctl enable mariadb
   EOF
 }
