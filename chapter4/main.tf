@@ -17,14 +17,14 @@ module "key_pair" {
 }
 
 module "vpc" {
-  source         = "./modules/vpc"
+  source         = "./modules/network/vpc"
   vpc_name       = "${local.class_number}_vpc"
   vpc_cidr_block = "10.1.0.0/16"
   gateway_name   = "${local.class_number}_gw"
 }
 
 module "public_a_subnet" {
-  source                  = "./modules/subnet"
+  source                  = "./modules/network/subnet"
   vpc_id                  = module.vpc.vpc_id
   name                    = "${local.class_number}_public_a"
   availability_zone       = "us-east-1a"
@@ -33,7 +33,7 @@ module "public_a_subnet" {
 }
 
 module "private_b_subnet" {
-  source                  = "./modules/subnet"
+  source                  = "./modules/network/subnet"
   vpc_id                  = module.vpc.vpc_id
   name                    = "${local.class_number}_private_a"
   availability_zone       = "us-east-1b"
@@ -42,14 +42,14 @@ module "private_b_subnet" {
 }
 
 module "nat_gw" {
-  source           = "./modules/nat-gateway"
+  source           = "./modules/network/nat-gateway"
   eip_name         = "${local.class_number}_eip"
   subnet_id        = module.public_a_subnet.subnet_id
   nat_gateway_name = "${local.class_number}_nat_gw"
 }
 
 module "public_route_table" {
-  source           = "./modules/route-table"
+  source           = "./modules/network/route-table"
   route_table_name = "${local.class_number}_rt"
   vpc_id           = module.vpc.vpc_id
   gateway_id       = module.vpc.gateway_id
@@ -58,7 +58,7 @@ module "public_route_table" {
 }
 
 module "private_route_table" {
-  source           = "./modules/route-table"
+  source           = "./modules/network/route-table"
   route_table_name = "${local.class_number}_private_rt"
   vpc_id           = module.vpc.vpc_id
   gateway_id       = module.nat_gw.nat_gateway_id
@@ -67,7 +67,7 @@ module "private_route_table" {
 }
 
 module "sg" {
-  source      = "./modules/security-group"
+  source      = "./modules/network/security-group"
   name        = "${local.class_number}_sg"
   description = "${local.class_number}_sg"
   vpc_id      = module.vpc.vpc_id
@@ -96,7 +96,7 @@ module "sg" {
 }
 
 module "sg2" {
-  source      = "./modules/security-group"
+  source      = "./modules/network/security-group"
   name        = "${local.class_number}_sg2"
   description = "${local.class_number}_sg2"
   vpc_id      = module.vpc.vpc_id
