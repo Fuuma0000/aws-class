@@ -41,12 +41,28 @@ module "private_b_subnet" {
   map_public_ip_on_launch = false
 }
 
-module "route_table" {
+module "nat_gw" {
+  source           = "./modules/nat-gateway"
+  eip_name         = "${local.class_number}_eip"
+  subnet_id        = module.public_a_subnet.subnet_id
+  nat_gateway_name = "${local.class_number}_nat_gw"
+}
+
+module "public_route_table" {
   source           = "./modules/route-table"
   route_table_name = "${local.class_number}_rt"
   vpc_id           = module.vpc.vpc_id
   gateway_id       = module.vpc.gateway_id
   subnet_id        = module.public_a_subnet.subnet_id
+  cidr_block       = "0.0.0.0/0"
+}
+
+module "private_route_table" {
+  source           = "./modules/route-table"
+  route_table_name = "${local.class_number}_private_rt"
+  vpc_id           = module.vpc.vpc_id
+  gateway_id       = module.nat_gw.nat_gateway_id
+  subnet_id        = module.private_b_subnet.subnet_id
   cidr_block       = "0.0.0.0/0"
 }
 
